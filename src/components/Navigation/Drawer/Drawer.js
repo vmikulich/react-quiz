@@ -4,9 +4,9 @@ import classes from './Drawer.module.css'
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  { to: '/', label: 'List', exact: true },
-  { to: '/auth', label: 'Authorization', exact: false },
-  { to: '/quiz-creator', label: 'Quiz creator', exact: false }
+  { to: '/', label: 'Cписок', exact: true },
+  { to: '/auth', label: 'Авторизация', exact: false },
+  { to: '/quiz-creator', label: 'Создание теста', exact: false }
 ];
 
 class Drawer extends Component {
