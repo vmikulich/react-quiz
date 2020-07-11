@@ -19,18 +19,20 @@ class Drawer extends Component {
     return links.map((link, index) => {
       return (
         <li key={index}>
-          <NavLink
+          <NavLink 
             to={link.to}
             exact={link.exact}
             activeClassName={classes.active}
-            onClick={this.props.onClose}
+            onClick={this.clickHandler}
           >
-            { link.label }
+            {link.label}
           </NavLink>
         </li>
       )
     })
   }
+
+  
 
   render() {
 
