@@ -5,6 +5,7 @@ import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import {createControl, validate, validateForm} from '../../form/formFramework'
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
+import axios from '../../axios/axios-quiz'
 
 function createOptionControl(number) {
   return createControl({
@@ -30,7 +31,7 @@ export default class QuizCreator extends Component {
 
   state = {
     quiz: [],
-    rightAnswer: 1,
+    rightAnswerId: 1,
     isFormValid: false,
     formControls: createFormControls()
   }
@@ -50,7 +51,7 @@ export default class QuizCreator extends Component {
     const questionItem = {
       question: question.value,
       id: index,
-      rightAnswer: this.state.rightAnswer,
+      rightAnswerId: this.state.rightAnswerId,
       answers: [
         {text: option1.value, id: option1.id},
         {text: option2.value, id: option2.id},
@@ -63,16 +64,27 @@ export default class QuizCreator extends Component {
 
     this.setState({
       quiz,
-      rightAnswer: 1,
+      rightAnswerId: 1,
       isFormValid: false,
       formControls: createFormControls()
     })
   }
 
-  createQuizHandler = event => {
+  createQuizHandler = async event => {
     event.preventDefault()
 
-    console.log(this.state.quiz)
+    try {
+      await axios.post('quizes.json', this.state.quiz)
+      
+      this.setState({
+        quiz: [],
+        rightAnswerId: 1,
+        isFormValid: false,
+        formControls: createFormControls()
+      })
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   onChangHandler = (value, controlName) => {
@@ -115,14 +127,14 @@ export default class QuizCreator extends Component {
 
   selectHandler = event => {
     this.setState({
-      rightAnswer: +event.target.value
+      rightAnswerId: +event.target.value
     })
   }
 
   render() {
     const select = <Select
       label="Выберите правельный ответ"
-      value={this.state.rightAnswer}
+      value={this.state.rightAnswerId}
       onChange={this.selectHandler}
       options={[
         {text: 1, value: 1},
